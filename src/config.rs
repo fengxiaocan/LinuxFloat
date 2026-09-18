@@ -20,9 +20,33 @@ pub enum Layout {
 pub enum Theme {
     #[default]
     Dark,
+    Catppuccin,
+    Cyberpunk,
+    Nord,
+    Matrix,
+    Solarized,
     Light,
-    System,
     Transparent,
+    System,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum WindowStyle {
+    #[default]
+    Card,
+    Capsule,
+    MiniBar,
+    Flat,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum TopAlignment {
+    #[default]
+    Center,
+    Right,
+    Left,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -31,10 +55,14 @@ pub struct Config {
     pub refresh_interval_ms: u64,
     pub layout: Layout,
     pub theme: Theme,
+    pub window_style: WindowStyle,
+    pub show_mini_bars: bool,
     pub opacity: f32,
     pub font_size: f32,
     pub corner_radius: u32,
     pub always_on_top: bool,
+    pub all_screens_top: bool,
+    pub top_alignment: TopAlignment,
     pub mouse_passthrough: bool,
     pub locked: bool,
     pub autostart: bool,
@@ -59,10 +87,14 @@ impl Default for Config {
             refresh_interval_ms: 1_000,
             layout: Layout::Horizontal,
             theme: Theme::Dark,
+            window_style: WindowStyle::Card,
+            show_mini_bars: false,
             opacity: 0.85,
             font_size: 13.0,
             corner_radius: 8,
             always_on_top: true,
+            all_screens_top: false,
+            top_alignment: TopAlignment::Center,
             mouse_passthrough: false,
             locked: false,
             autostart: false,
@@ -105,10 +137,49 @@ impl Config {
 
     pub fn cycle_theme(&mut self) {
         self.theme = match self.theme {
-            Theme::Dark => Theme::Light,
+            Theme::Dark => Theme::Catppuccin,
+            Theme::Catppuccin => Theme::Cyberpunk,
+            Theme::Cyberpunk => Theme::Nord,
+            Theme::Nord => Theme::Matrix,
+            Theme::Matrix => Theme::Solarized,
+            Theme::Solarized => Theme::Light,
             Theme::Light => Theme::Transparent,
             Theme::Transparent => Theme::System,
             Theme::System => Theme::Dark,
+        };
+    }
+
+    pub fn cycle_style(&mut self) {
+        self.window_style = match self.window_style {
+            WindowStyle::Card => WindowStyle::Capsule,
+            WindowStyle::Capsule => WindowStyle::MiniBar,
+            WindowStyle::MiniBar => WindowStyle::Flat,
+            WindowStyle::Flat => WindowStyle::Card,
+        };
+        self.show_mini_bars = self.window_style == WindowStyle::MiniBar;
+    }
+
+    pub fn cycle_alignment(&mut self) {
+        self.top_alignment = match self.top_alignment {
+            TopAlignment::Center => TopAlignment::Right,
+            TopAlignment::Right => TopAlignment::Left,
+            TopAlignment::Left => TopAlignment::Center,
+        };
+    }
+
+    pub fn cycle_opacity(&mut self) {
+        self.opacity = if self.opacity >= 0.95 {
+            0.85
+        } else if self.opacity >= 0.80 {
+            0.70
+        } else if self.opacity >= 0.65 {
+            0.50
+        } else if self.opacity >= 0.45 {
+            0.35
+        } else if self.opacity >= 0.25 {
+            0.20
+        } else {
+            1.0
         };
     }
 }

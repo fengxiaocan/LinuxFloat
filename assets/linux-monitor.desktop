@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Linux Monitor
+GenericName=System Monitor
+Comment=Lightweight desktop performance monitor overlay
+Exec=linux-monitor
+Icon=linux-monitor
+Terminal=false
+Categories=System;Monitor;Utility;
+Keywords=system;monitor;performance;cpu;gpu;memory;overlay;
+StartupNotify=false

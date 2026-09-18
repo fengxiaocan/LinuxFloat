@@ -1,0 +1,33 @@
+.TH LINUX-MONITOR 1 "September 2026" "linux-monitor 0.1.0" "User Commands"
+.SH NAME
+linux-monitor \- lightweight Linux desktop performance monitor overlay
+.SH SYNOPSIS
+.B linux-monitor
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+.B linux-monitor
+is a native, lightweight Linux performance overlay that directly samples system metrics
+from /proc, /sys and NVIDIA NVML without spawning external shell processes.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help information and exit.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Print version information and exit.
+.TP
+\fB\-\-print\-session\fR
+Print detected display server / desktop session information and exit.
+.TP
+\fB\-\-print\-config\fR
+Print currently loaded configuration and exit.
+.TP
+\fB\-\-no\-window\fR
+Sample metrics once, print output to stdout, and exit.
+.SH FILES
+.I ~/.config/linux-monitor/config.toml
+.RS
+User configuration file.
+.RE
+.SH AUTHORS
+Written by XiaoCan <fengxiaocan@ayaneo.com>.

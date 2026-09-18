@@ -16,6 +16,7 @@ winit = "0.30"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 tray-icon = { version = "0.25.1", default-features = false, features = ["ksni"] }
+x11rb = { version = "0.13", default-features = false, features = ["allow-unsafe-code"] }
 
 [profile.release]
 opt-level = "z"
@@ -23,3 +24,25 @@ lto = true
 codegen-units = 1
 panic = "abort"
 strip = true
+
+[package.metadata.deb]
+maintainer = "XiaoCan <fengxiaocan@ayaneo.com>"
+copyright = "2026, XiaoCan <fengxiaocan@ayaneo.com>"
+license-file = ["LICENSE", "4"]
+extended-description = """\
+Linux native lightweight performance monitor overlay that directly reads \
+/proc, /sys and NVIDIA NVML without spawning shell commands or persistent \
+monitoring helper daemons.\
+"""
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/release/linux-monitor", "usr/bin/", "755"],
+    ["assets/linux-monitor.desktop", "usr/share/applications/", "644"],
+    ["assets/icons/linux-monitor.svg", "usr/share/icons/hicolor/scalable/apps/", "644"],
+    ["assets/icons/linux-monitor.png", "usr/share/icons/hicolor/256x256/apps/", "644"],
+    ["assets/icons/linux-monitor.svg", "usr/share/pixmaps/", "644"],
+    ["assets/icons/linux-monitor.png", "usr/share/pixmaps/", "644"],
+    ["README.md", "usr/share/doc/linux-monitor/README.md", "644"],
+]
+

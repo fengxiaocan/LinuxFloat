@@ -970,6 +970,7 @@ dependencies = [
  "toml",
  "tray-icon",
  "winit",
+ "x11rb",
 ]
 
 [[package]]
